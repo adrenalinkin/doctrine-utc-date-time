@@ -1,3 +1,7 @@
+## [1.0.1] - 2017-11-21
+### Fixed:
+- Applied Symfony Standards over the PSR-2.
+
 ## [1.0.0]
 ### Added
 - Basic feature which provides possibility for add UTC date and time types into Doctrine.

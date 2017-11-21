@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DoctrineUTCDateTime component package.
+ *
+ * (c) Viktor Linkin <adrenalinkin@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Linkin\Component\DoctrineUTCDateTime\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -18,7 +27,7 @@ class UtcTimeType extends TimeType
      */
     public function convertToDatabaseValue($date, AbstractPlatform $platform)
     {
-        if ($date === null) {
+        if (is_null($date)) {
             return null;
         }
 
@@ -37,11 +46,11 @@ class UtcTimeType extends TimeType
      */
     public function convertToPHPValue($date, AbstractPlatform $platform)
     {
-        if ($date === null) {
+        if (is_null($date)) {
             return null;
         }
 
-        $value = \DateTime::createFromFormat('!' . $platform->getTimeFormatString(), $date, $this->getUTC());
+        $value = \DateTime::createFromFormat('!'.$platform->getTimeFormatString(), $date, $this->getUTC());
 
         if (!$value) {
             throw ConversionException::conversionFailed($date, $this->getName());
@@ -49,6 +58,6 @@ class UtcTimeType extends TimeType
 
         $errors = $value->getLastErrors();
 
-        return $errors['warning_count'] > 0 && (int)$value->format('Y') < 0 ? null : $value;
+        return $errors['warning_count'] > 0 && (int) $value->format('Y') < 0 ? null : $value;
     }
 }
