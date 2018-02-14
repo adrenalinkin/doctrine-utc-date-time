@@ -1,21 +1,33 @@
-Doctrine UTC Date Time
+Doctrine UTC Date Time [![На Русском](https://img.shields.io/badge/Перейти_на-Русский-green.svg?style=flat-square)](./README.RU.md)
 ======================
 
-Компонент предоставляет набор типов времени и даты, которы можно зарегистрировать как тип `Doctrine` и всегда хранить
-данные даты и времени в БД в формате `UTC`. В состав входят три типа:
+Introduction
+------------
 
- * [UtcDateTimeType.php](DBAL/Types/UtcDateTimeType.php) - для хранения в `UTC` формате даты и времени.
- * [UtcDateType.php](DBAL/Types/UtcDateType.php) - для хранения в `UTC` формате даты.
- * [UtcTimeType.php](DBAL/Types/UtcTimeType.php) - для хранения в `UTC` формате времени.
+Component contains `DBAL` types for date and time and can be registered as `Doctrine` types. `DBAL` types provides
+functionality for storing date and time into database in the `UTC`. List of the available types:
 
-Пример использования
---------------------
+ * [UtcDateTimeType.php](DBAL/Types/UtcDateTimeType.php)
+ * [UtcDateType.php](DBAL/Types/UtcDateType.php)
+ * [UtcTimeType.php](DBAL/Types/UtcTimeType.php)
 
-Для регистрации нового типа данных `Doctrine` необходимо воспользоваться инструкцией, описанной в официальной
-документации Symfony [How to Use Doctrine DBAL](https://symfony.com/doc/current/doctrine/dbal.html).
+Installation
+------------
 
-Таким образом, чтобы зарегистрировать новые типы, которые хранят дату и время в `UTC` необходимо добавить
-следующую конфигурацию:
+Open a command console, enter your project directory and execute the following command to download the latest stable
+version of this component:
+```text
+    composer require adrenalinkin/doctrine-utc-date-time
+```
+*This command requires you to have [Composer](https://getcomposer.org) install globally.*
+
+Usage
+-----
+
+For registration new `Doctrine` type use official instruction 
+[How to Use Doctrine DBAL](https://symfony.com/doc/current/doctrine/dbal.html).
+
+For registration new separate UTC types:
 
 ```yaml
 # app/config/config.yml
@@ -27,8 +39,7 @@ doctrine:
             utctime:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType
 ```
 
-Также можно переопределить существующие типы храниения времени и даты, добившись автоматического храниения всех дат в
-формате `UTC`. Для этого нужно добавить следующие строки в конфигурацию проекта:
+Also, you can overwrite standard types:
 
 ```yaml
 # app/config/config.yml
@@ -39,3 +50,8 @@ doctrine:
             datetime: Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateTimeType
             time:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType
 ```
+
+License
+-------
+
+[![license](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](./LICENSE)
