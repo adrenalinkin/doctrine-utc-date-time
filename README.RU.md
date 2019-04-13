@@ -1,6 +1,9 @@
 Doctrine UTC Date Time [![In English](https://img.shields.io/badge/Switch_To-English-green.svg?style=flat-square)](./README.md)
 ======================
 
+[![Latest Stable Version](https://poser.pugx.org/adrenalinkin/doctrine-utc-date-time/v/stable)](https://packagist.org/packages/adrenalinkin/doctrine-utc-date-time)
+[![Total Downloads](https://poser.pugx.org/adrenalinkin/doctrine-utc-date-time/downloads)](https://packagist.org/packages/adrenalinkin/doctrine-utc-date-time)
+
 Введение
 --------
 
@@ -36,9 +39,9 @@ Doctrine UTC Date Time [![In English](https://img.shields.io/badge/Switch_To-Eng
 doctrine:
     dbal:
         types:
-            utcdate:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateType
-            utcdatetime: Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateTimeType
-            utctime:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType
+            utc_date:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateType
+            utc_datetime: Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateTimeType
+            utc_time:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType
 ```
 
 Также можно переопределить существующие типы хранения времени и даты, добившись автоматического хранения всех дат в

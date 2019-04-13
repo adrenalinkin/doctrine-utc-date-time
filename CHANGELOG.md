@@ -1,3 +1,9 @@
+## [1.1.0] - 2019-04-13
+### Changed
+- Refactored code according to PHP 7 features.
+### Removed
+- Removed compatibility with PHP lower than 7 version.
+
 ## [1.0.2] - 2018-02-14
 ### Added
 - Improved documentation.
