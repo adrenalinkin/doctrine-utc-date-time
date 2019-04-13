@@ -1,6 +1,9 @@
 Doctrine UTC Date Time [![На Русском](https://img.shields.io/badge/Перейти_на-Русский-green.svg?style=flat-square)](./README.RU.md)
 ======================
 
+[![Latest Stable Version](https://poser.pugx.org/adrenalinkin/doctrine-utc-date-time/v/stable)](https://packagist.org/packages/adrenalinkin/doctrine-utc-date-time)
+[![Total Downloads](https://poser.pugx.org/adrenalinkin/doctrine-utc-date-time/downloads)](https://packagist.org/packages/adrenalinkin/doctrine-utc-date-time)
+
 Introduction
 ------------
 
@@ -34,9 +37,9 @@ For registration new separate UTC types:
 doctrine:
     dbal:
         types:
-            utcdate:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateType
-            utcdatetime: Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateTimeType
-            utctime:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType
+            utc_date:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateType
+            utc_datetime: Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateTimeType
+            utc_time:     Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType
 ```
 
 Also, you can overwrite standard types:

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the DoctrineUTCDateTime component package.
  *
@@ -11,6 +13,7 @@
 
 namespace Linkin\Component\DoctrineUTCDateTime\DBAL\Types;
 
+use DateTime;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\TimeType;
@@ -25,39 +28,24 @@ class UtcTimeType extends TimeType
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($date, AbstractPlatform $platform)
+    public function convertToDatabaseValue($date, AbstractPlatform $platform): ?string
     {
-        if (is_null($date)) {
+        if (null === $date) {
             return null;
         }
 
-        if ($date instanceof \DateTime) {
-            return parent::convertToDatabaseValue($date->setTimezone($this->getUTC()), $platform);
+        if ($date instanceof DateTime) {
+            return parent::convertToDatabaseValue($date->setTimezone($this::getUTC()), $platform);
         }
 
-        throw new ConversionException(sprintf(
-            'Invalid date format. Received: "%s". Expected: \DateTime',
-            is_object($date) ? get_class($date) : gettype($date)
-        ));
+        throw ConversionException::conversionFailedInvalidType($date, $this->getName(), ['null', 'DateTime']);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($date, AbstractPlatform $platform)
+    public function convertToPHPValue($date, AbstractPlatform $platform): ?DateTime
     {
-        if (is_null($date)) {
-            return null;
-        }
-
-        $value = \DateTime::createFromFormat('!'.$platform->getTimeFormatString(), $date, $this->getUTC());
-
-        if (!$value) {
-            throw ConversionException::conversionFailed($date, $this->getName());
-        }
-
-        $errors = $value->getLastErrors();
-
-        return $errors['warning_count'] > 0 && (int) $value->format('Y') < 0 ? null : $value;
+        return $this->convertToDateTime($date, '!'.$platform->getTimeFormatString());
     }
 }

@@ -14,8 +14,8 @@
     ],
 
     "require": {
-        "php":           "~5.4||~7.0",
-        "doctrine/dbal": "~2.3"
+        "php":           "^7.1",
+        "doctrine/dbal": "^2.6"
     },
 
     "suggest": {
