@@ -1,4 +1,4 @@
-## [Unreleased]
+## [1.1.1] - 2019-06-07
 ### Fixed
 - Added explicitly types marking as commented according to the modern style.
 
