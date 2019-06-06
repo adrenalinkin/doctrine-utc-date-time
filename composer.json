@@ -18,10 +18,6 @@
         "doctrine/dbal": "^2.6"
     },
 
-    "suggest": {
-        "symfony/symfony": "Allows more advanced functionality with full Symfony package"
-    },
-
     "autoload": {
         "psr-4": {
             "Linkin\\Component\\DoctrineUTCDateTime\\": ""

@@ -48,4 +48,12 @@ class UtcDateType extends DateType
     {
         return $this->convertToDateTime($date, '!'.$platform->getDateFormatString());
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
 }
