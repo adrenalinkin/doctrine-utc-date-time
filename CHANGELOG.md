@@ -1,3 +1,7 @@
+## [1.2.0] - 2021-01-28
+### Added
+- Added PHP 8 support
+
 ## [1.1.1] - 2019-06-07
 ### Fixed
 - Added explicitly types marking as commented according to the modern style.
