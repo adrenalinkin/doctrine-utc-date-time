@@ -1,3 +1,7 @@
+## [1.2.1] - 2021-09-05
+### Fixed
+- Fixed problems with `DateTimeImmutable`.
+
 ## [1.2.0] - 2021-01-28
 ### Added
 - Added PHP 8 support
