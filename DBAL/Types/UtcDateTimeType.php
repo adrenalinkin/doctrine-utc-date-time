@@ -34,7 +34,7 @@ class UtcDateTimeType extends DateTimeType
             return null;
         }
 
-        if ($date instanceof DateTime) {
+        if ($date instanceof \DateTimeInterface) {
             return parent::convertToDatabaseValue($date->setTimezone($this::getUTC()), $platform);
         }
 
