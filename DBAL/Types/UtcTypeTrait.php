@@ -27,9 +27,6 @@ trait UtcTypeTrait
      */
     private static $utc;
 
-    /**
-     * @return DateTimeZone
-     */
     private static function getUTC(): DateTimeZone
     {
         if (!self::$utc) {
@@ -40,11 +37,6 @@ trait UtcTypeTrait
     }
 
     /**
-     * @param string|null $dateString
-     * @param string $dateFormat
-     *
-     * @return DateTime|null
-     *
      * @throws ConversionException
      */
     private function convertToDateTime(?string $dateString, string $dateFormat): ?DateTime

@@ -1,23 +1,24 @@
 {
-    "name":        "adrenalinkin/doctrine-utc-date-time",
+    "name": "adrenalinkin/doctrine-utc-date-time",
     "description": "Provides Doctrine DBAL date and time types for storing in UTC format into database",
-    "type":        "library",
-    "keywords":    ["symfony-component", "doctrine-utc", "doctrine-dbal", "utc-datetime"],
-    "license":     "MIT",
-
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "symfony-component",
+        "doctrine-utc",
+        "doctrine-dbal",
+        "utc-datetime"
+    ],
     "authors": [
         {
-            "email": "adrenalinkin@gmail.com",
-            "name":  "Viktor Linkin",
-            "role":  "Developer"
+            "name": "Viktor Linkin",
+            "email": "adrenalinkin@gmail.com"
         }
     ],
-
     "require": {
-        "php":           ">=7.1",
+        "php": "^7.1 || ^8.0",
         "doctrine/dbal": "^2.6"
     },
-
     "autoload": {
         "psr-4": {
             "Linkin\\Component\\DoctrineUTCDateTime\\": ""
