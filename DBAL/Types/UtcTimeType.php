@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace Linkin\Component\DoctrineUTCDateTime\DBAL\Types;
 
 use DateTime;
+use DateTimeInterface;
+use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\TimeType;
 
 /**
@@ -23,37 +24,31 @@ use Doctrine\DBAL\Types\TimeType;
  */
 class UtcTimeType extends TimeType
 {
-    use UtcTypeTrait;
-
     /**
      * {@inheritdoc}
      */
     public function convertToDatabaseValue($date, AbstractPlatform $platform): ?string
     {
-        if (null === $date) {
+        if ($date instanceof DateTimeInterface) {
+            return parent::convertToDatabaseValue($date->setTimezone(new DateTimeZone('UTC')), $platform);
+        }
+
+        return parent::convertToDatabaseValue($date, $platform);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function convertToPHPValue($date, AbstractPlatform $platform): ?DateTimeInterface
+    {
+        $phpDate = parent::convertToPHPValue($date, $platform);
+
+        if (null === $phpDate) {
             return null;
         }
 
-        if ($date instanceof \DateTimeInterface) {
-            return parent::convertToDatabaseValue($date->setTimezone($this::getUTC()), $platform);
-        }
+        $formatString = $platform->getTimeFormatString();
 
-        throw ConversionException::conversionFailedInvalidType($date, $this->getName(), ['null', 'DateTime']);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToPHPValue($date, AbstractPlatform $platform): ?DateTime
-    {
-        return $this->convertToDateTime($date, '!'.$platform->getTimeFormatString());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
+        return DateTime::createFromFormat('!'.$formatString, $phpDate->format($formatString), new DateTimeZone('UTC'));
     }
 }

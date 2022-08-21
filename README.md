@@ -1,6 +1,8 @@
 Doctrine UTC Date Time [![На Русском](https://img.shields.io/badge/Перейти_на-Русский-green.svg?style=flat-square)](./README.RU.md)
 ======================
 
+[![PHPUnit](https://github.com/adrenalinkin/doctrine-utc-date-time/workflows/UnitTests/badge.svg)](https://github.com/adrenalinkin/doctrine-utc-date-time/actions/workflows/unit-tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/adrenalinkin/doctrine-utc-date-time/badge.svg?branch=master)](https://coveralls.io/github/adrenalinkin/doctrine-utc-date-time?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/adrenalinkin/doctrine-utc-date-time/v/stable)](https://packagist.org/packages/adrenalinkin/doctrine-utc-date-time)
 [![Total Downloads](https://poser.pugx.org/adrenalinkin/doctrine-utc-date-time/downloads)](https://packagist.org/packages/adrenalinkin/doctrine-utc-date-time)
 
