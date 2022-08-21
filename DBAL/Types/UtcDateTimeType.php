@@ -46,7 +46,15 @@ class UtcDateTimeType extends DateTimeType
      */
     public function convertToPHPValue($date, AbstractPlatform $platform): ?DateTime
     {
-        return $this->convertToDateTime($date, $platform->getDateTimeFormatString());
+        $phpDate = parent::convertToPHPValue($date, $platform);
+
+        if (null === $phpDate) {
+            return null;
+        }
+
+        $formatString = $platform->getDateTimeFormatString();
+
+        return DateTime::createFromFormat($formatString, $phpDate->format($formatString), new DateTimeZone('UTC'));
     }
 
     /**
@@ -55,25 +63,5 @@ class UtcDateTimeType extends DateTimeType
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;
-    }
-
-    /**
-     * @throws ConversionException
-     */
-    private function convertToDateTime(?string $dateString, string $dateFormat): ?DateTime
-    {
-        if (null === $dateString) {
-            return null;
-        }
-
-        $converted = DateTime::createFromFormat($dateFormat, $dateString, new DateTimeZone('UTC'));
-
-        if (!$converted) {
-            throw ConversionException::conversionFailed($dateString, $this->getName());
-        }
-
-        $errors = $converted::getLastErrors();
-
-        return $errors['warning_count'] > 0 && (int) $converted->format('Y') < 0 ? null : $converted;
     }
 }
