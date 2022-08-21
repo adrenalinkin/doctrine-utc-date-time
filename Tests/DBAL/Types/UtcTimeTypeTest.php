@@ -20,27 +20,27 @@ use DateTimeZone;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
-use Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcDateTimeType;
+use Linkin\Component\DoctrineUTCDateTime\DBAL\Types\UtcTimeType;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Viktor Linkin <adrenalinkin@gmail.com>
  */
-class UtcDateTimeTypeTest extends TestCase
+class UtcTimeTypeTest extends TestCase
 {
     /**
-     * @var UtcDateTimeType
+     * @var UtcTimeType
      */
     private $sut;
 
     public static function setUpBeforeClass(): void
     {
-        Type::addType('utc_datetime', UtcDateTimeType::class);
+        Type::addType('utc_time', UtcTimeType::class);
     }
 
     protected function setUp(): void
     {
-        $this->sut = Type::getType('utc_datetime');
+        $this->sut = Type::getType('utc_time');
     }
 
     /**
@@ -60,8 +60,9 @@ class UtcDateTimeTypeTest extends TestCase
 
         return [
             [null, null],
-            [new DateTime('1991-05-02 04:00:00', $zone), '1991-05-02 01:00:00'],
-            [new DateTimeImmutable('1991-05-02 04:00:00', $zone), '1991-05-02 01:00:00'],
+            [new DateTime('1991-05-02 00:00:00', $zone), '21:00:00'],
+            [new DateTimeImmutable('1991-05-02 00:00:00', $zone), '21:00:00'],
+            [new DateTime('1991-05-02 04:00:00', $zone), '01:00:00'],
         ];
     }
 
@@ -79,10 +80,10 @@ class UtcDateTimeTypeTest extends TestCase
 
         self::assertNull($result);
 
-        $result = $this->sut->convertToPHPValue('1991-05-02 04:00:00', $platform);
+        $result = $this->sut->convertToPHPValue('21:00:00', $platform);
         $expected = DateTime::createFromFormat(
             $platform->getDateTimeFormatString(),
-            '1991-05-02 04:00:00',
+            '1970-01-01 21:00:00',
             new DateTimeZone('UTC')
         );
 
@@ -93,7 +94,7 @@ class UtcDateTimeTypeTest extends TestCase
     {
         $platform = new SqlitePlatform();
         $this->expectException(ConversionException::class);
-        $this->sut->convertToPHPValue('19910502040000', $platform);
+        $this->sut->convertToPHPValue('1991-05-02 00:00:00', $platform);
     }
 
     public function testRequiresSQLCommentHint(): void
