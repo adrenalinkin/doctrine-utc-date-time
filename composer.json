@@ -19,9 +19,23 @@
         "php": "^7.1 || ^8.0",
         "doctrine/dbal": "^2.6"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+    },
     "autoload": {
         "psr-4": {
             "Linkin\\Component\\DoctrineUTCDateTime\\": ""
+        },
+        "exclude-from-classmap": [
+            "Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Linkin\\Component\\DoctrineUTCDateTime\\Tests\\": "Tests/"
         }
+    },
+    "config": {
+        "sort-packages": true
     }
 }
