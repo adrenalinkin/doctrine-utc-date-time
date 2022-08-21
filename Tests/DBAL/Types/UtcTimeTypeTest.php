@@ -57,6 +57,9 @@ class UtcTimeTypeTest extends TestCase
         $result = $this->sut->convertToDatabaseValue(new DateTime($value), $platform);
         self::assertSame($expected, $result, "Timezone $defaultTimezone");
 
+        $notUtcResult = Type::getType('time')->convertToDatabaseValue(new DateTime($value), $platform);
+        self::assertSame('00:00:00', $notUtcResult);
+
         $resultImmutable = $this->sut->convertToDatabaseValue(new DateTimeImmutable($value), $platform);
         self::assertSame($expected, $resultImmutable, "Timezone $defaultTimezone");
 
@@ -99,6 +102,14 @@ class UtcTimeTypeTest extends TestCase
         );
 
         self::assertSame($expected->getTimestamp(), $result->getTimestamp());
+
+        $notUtcResult = Type::getType('time')->convertToPHPValue('21:00:00', $platform);
+
+        if ('UTC' === $defaultTimezone) {
+            self::assertSame($notUtcResult->getTimestamp(), $result->getTimestamp());
+        } else {
+            self::assertNotSame($notUtcResult->getTimestamp(), $result->getTimestamp());
+        }
 
         date_default_timezone_set('UTC');
     }

@@ -57,6 +57,9 @@ class UtcDateTypeTest extends TestCase
         $result = $this->sut->convertToDatabaseValue(new DateTime($value), $platform);
         self::assertSame($expected, $result, "Timezone $defaultTimezone");
 
+        $notUtcResult = Type::getType('date')->convertToDatabaseValue(new DateTime($value), $platform);
+        self::assertSame($value, $notUtcResult);
+
         $resultImmutable = $this->sut->convertToDatabaseValue(new DateTimeImmutable($value), $platform);
         self::assertSame($expected, $resultImmutable, "Timezone $defaultTimezone");
 
@@ -66,9 +69,9 @@ class UtcDateTypeTest extends TestCase
     public function canConvertToDatabaseValueDataProvider(): array
     {
         return [
-            ['UTC', '1991-05-02 00:00:00', '1991-05-02'],
-            ['America/Chicago', '1991-05-02 00:00:00', '1991-05-02'],
-            ['Europe/Moscow', '1991-05-02 00:00:00', '1991-05-01'],
+            ['UTC', '1991-05-02', '1991-05-02'],
+            ['America/Chicago', '1991-05-02', '1991-05-02'],
+            ['Europe/Moscow', '1991-05-02', '1991-05-01'],
         ];
     }
 
@@ -99,6 +102,14 @@ class UtcDateTypeTest extends TestCase
         );
 
         self::assertSame($expected->getTimestamp(), $result->getTimestamp());
+
+        $notUtcResult = Type::getType('date')->convertToPHPValue('1991-05-02', $platform);
+
+        if ('UTC' === $defaultTimezone) {
+            self::assertSame($notUtcResult->getTimestamp(), $result->getTimestamp());
+        } else {
+            self::assertNotSame($notUtcResult->getTimestamp(), $result->getTimestamp());
+        }
 
         date_default_timezone_set('UTC');
     }
