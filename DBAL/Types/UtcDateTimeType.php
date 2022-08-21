@@ -51,12 +51,4 @@ class UtcDateTimeType extends DateTimeType
 
         return DateTime::createFromFormat($formatString, $phpDate->format($formatString), new DateTimeZone('UTC'));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
 }

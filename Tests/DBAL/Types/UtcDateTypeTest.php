@@ -129,12 +129,4 @@ class UtcDateTypeTest extends TestCase
         $this->expectException(ConversionException::class);
         $this->sut->convertToPHPValue('19999/05/02/04/00/00', $platform);
     }
-
-    public function testRequiresSQLCommentHint(): void
-    {
-        $platform = new SqlitePlatform();
-        $result = $this->sut->requiresSQLCommentHint($platform);
-
-        self::assertTrue($result);
-    }
 }
