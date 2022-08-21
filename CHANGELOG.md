@@ -1,3 +1,13 @@
+## [2.0.0] - 2022-08-21
+### Added
+- Added codestyle and unit tests
+- Added compatibility with dbal ^3.0
+### Changed
+- Removed internal `UtcTypeTrait`.
+- Drop compatibility with dbal 2.6.
+### Removed
+- Removed doctrine type hint.
+
 ## [1.2.1] - 2021-09-05
 ### Fixed
 - Fixed problems with `DateTimeImmutable`.
