@@ -15,7 +15,6 @@ namespace DBAL\Types;
 
 use DateTime;
 use DateTimeImmutable;
-use DateTimeInterface;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -44,24 +43,32 @@ class UtcDateTypeTest extends TestCase
     }
 
     /**
-     * @dataProvider convertToDatabaseValueDataProvider
+     * @dataProvider canConvertToDatabaseValueDataProvider
      */
-    public function testCanConvertToDatabaseValue(?DateTimeInterface $value, ?string $expected): void
+    public function testCanConvertToDatabaseValue(string $defaultTimezone, ?string $value, ?string $expected): void
     {
-        $platform = new SqlitePlatform();
-        $result = $this->sut->convertToDatabaseValue($value, $platform);
+        date_default_timezone_set($defaultTimezone);
 
-        self::assertSame($expected, $result);
+        $platform = new SqlitePlatform();
+
+        $resultNull = $this->sut->convertToDatabaseValue(null, $platform);
+        self::assertNull($resultNull);
+
+        $result = $this->sut->convertToDatabaseValue(new DateTime($value), $platform);
+        self::assertSame($expected, $result, "Timezone $defaultTimezone");
+
+        $resultImmutable = $this->sut->convertToDatabaseValue(new DateTimeImmutable($value), $platform);
+        self::assertSame($expected, $resultImmutable, "Timezone $defaultTimezone");
+
+        date_default_timezone_set('UTC');
     }
 
-    public function convertToDatabaseValueDataProvider(): array
+    public function canConvertToDatabaseValueDataProvider(): array
     {
-        $zone = new DateTimeZone('Europe/Moscow');
-
         return [
-            [null, null],
-            [new DateTime('1991-05-02 00:00:00', $zone), '1991-05-01'],
-            [new DateTimeImmutable('1991-05-02 00:00:00', $zone), '1991-05-01'],
+            ['UTC', '1991-05-02 00:00:00', '1991-05-02'],
+            ['America/Chicago', '1991-05-02 00:00:00', '1991-05-02'],
+            ['Europe/Moscow', '1991-05-02 00:00:00', '1991-05-01'],
         ];
     }
 
@@ -72,8 +79,13 @@ class UtcDateTypeTest extends TestCase
         $this->sut->convertToDatabaseValue('1991-05-02 01:00:00', $platform);
     }
 
-    public function testCanConvertToPHPValue(): void
+    /**
+     * @dataProvider canConvertToPHPValueDataProvider
+     */
+    public function testCanConvertToPHPValue(string $defaultTimezone): void
     {
+        date_default_timezone_set($defaultTimezone);
+
         $platform = new SqlitePlatform();
         $result = $this->sut->convertToPHPValue(null, $platform);
 
@@ -87,13 +99,24 @@ class UtcDateTypeTest extends TestCase
         );
 
         self::assertSame($expected->getTimestamp(), $result->getTimestamp());
+
+        date_default_timezone_set('UTC');
+    }
+
+    public function canConvertToPHPValueDataProvider(): array
+    {
+        return [
+            ['UTC'],
+            ['America/Chicago'],
+            ['Europe/Moscow'],
+        ];
     }
 
     public function testFailConvertToPHPValue(): void
     {
         $platform = new SqlitePlatform();
         $this->expectException(ConversionException::class);
-        $this->sut->convertToPHPValue('1991-05-02 00:00:00', $platform);
+        $this->sut->convertToPHPValue('19999/05/02/04/00/00', $platform);
     }
 
     public function testRequiresSQLCommentHint(): void
