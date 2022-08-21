@@ -17,7 +17,6 @@ use DateTime;
 use DateTimeInterface;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
 
 /**
@@ -30,21 +29,17 @@ class UtcDateTimeType extends DateTimeType
      */
     public function convertToDatabaseValue($date, AbstractPlatform $platform): ?string
     {
-        if (null === $date) {
-            return null;
-        }
-
         if ($date instanceof DateTimeInterface) {
             return parent::convertToDatabaseValue($date->setTimezone(new DateTimeZone('UTC')), $platform);
         }
 
-        throw ConversionException::conversionFailedInvalidType($date, $this->getName(), ['null', 'DateTime']);
+        return parent::convertToDatabaseValue($date, $platform);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($date, AbstractPlatform $platform): ?DateTime
+    public function convertToPHPValue($date, AbstractPlatform $platform): ?DateTimeInterface
     {
         $phpDate = parent::convertToPHPValue($date, $platform);
 
