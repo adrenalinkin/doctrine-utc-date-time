@@ -23,20 +23,6 @@ use Doctrine\DBAL\Types\ConversionException;
 trait UtcTypeTrait
 {
     /**
-     * @var DateTimeZone
-     */
-    private static $utc;
-
-    private static function getUTC(): DateTimeZone
-    {
-        if (!self::$utc) {
-            self::$utc = new DateTimeZone('UTC');
-        }
-
-        return self::$utc;
-    }
-
-    /**
      * @throws ConversionException
      */
     private function convertToDateTime(?string $dateString, string $dateFormat): ?DateTime
@@ -45,7 +31,7 @@ trait UtcTypeTrait
             return null;
         }
 
-        $converted = DateTime::createFromFormat($dateFormat, $dateString, self::getUTC());
+        $converted = DateTime::createFromFormat($dateFormat, $dateString, new DateTimeZone('UTC'));
 
         if (!$converted) {
             throw ConversionException::conversionFailed($dateString, $this->getName());

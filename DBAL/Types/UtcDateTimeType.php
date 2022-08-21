@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Linkin\Component\DoctrineUTCDateTime\DBAL\Types;
 
 use DateTime;
+use DateTimeInterface;
+use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
@@ -34,8 +36,8 @@ class UtcDateTimeType extends DateTimeType
             return null;
         }
 
-        if ($date instanceof \DateTimeInterface) {
-            return parent::convertToDatabaseValue($date->setTimezone($this::getUTC()), $platform);
+        if ($date instanceof DateTimeInterface) {
+            return parent::convertToDatabaseValue($date->setTimezone(new DateTimeZone('UTC')), $platform);
         }
 
         throw ConversionException::conversionFailedInvalidType($date, $this->getName(), ['null', 'DateTime']);
